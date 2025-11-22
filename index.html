@@ -7,11 +7,23 @@
     <!--Referencia a la archivo de Style-->   
     <!--<link rel="stylesheet" href="style.css"> -->
     <!--Referencia a la archivo de Logica en java scripts-->   
-    <script defer src="js/script.js"></script>
 </head>
 <body>
-    <h1>Bienvenido a Inmobiliaria Diqmar<h1>
-    <p>DIQMAR" es una empresa familiar dedicada al asesoramiento inmobiliario desde hace muchos años. Acompañamos a nuetros clientes en todas sus operaciones</p>    
+    <h1 id = "saludo">Bienvenido a Inmobiliaria Diqmar<h1>
+    <p id = "introduccion">DIQMAR" es una empresa familiar dedicada al asesoramiento inmobiliario desde hace muchos años. Acompañamos a nuetros clientes en todas sus operaciones</p>    
+    <p id = "simulador">Te ofrecemos un simulador que te permita calcular el monto de la comision y gastos de cualquier tipo de operacion Inmobiliaria</p>    
     
+        
+        <input type="number" id ="input"  placeholder="Ingresar Monto Operación" value="0"></input>
+        <select name="" id="select">
+            <option value="Comprar">Comprar</option>
+            <option value="Vender">Vender</option>
+            <option value="Alquilar">Alquilar</option>
+        </select>
+        <button id ="boton"> Calcular comisión</button>
+    
+        <h2 id="resultado"></h2>
+
+    <script defer src="js/script.js"></script> 
 </body>
 </html>

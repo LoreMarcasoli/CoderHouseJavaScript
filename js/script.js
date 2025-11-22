@@ -41,8 +41,6 @@ function Porcentaje (v_monto,v_comision)
 //Invocación
 DarBienvenida (c_razonSocial,v_tipooperación);
 AniosActividad();
-v_tipooperación = confirm("Ingresar 'Confirmar' si la operación es una compra");
-alert ("El hecho de confirmar no implica ninguna obligacion de partes");
 saludar('Lorena Marcasoli Agente de Bienes Raices','Lorenamarcasoli@diqmar.com');
 
 console.log(Regiones);
@@ -53,22 +51,59 @@ console.log("Muestra las regiones que quedaron post eliminación :",Regiones);
 Regiones.push('GBA-Norte');
 console.log("Muestra las regiones que quedaron push eliminación :",Regiones);
 
-alert("Ingresa el numero de la operación a realizar");
-alert("Luego ingresa el monto de la operación");
-alert("Te devolveremos un aprox de los gastos");
 
-let operación = prompt(" 1 para compra / 2 alquiler / 3 venta");
-let monto = prompt(" ingrese el monto");
+const select = document.getElementById("select");
+const input = document.getElementById("input");
+const button = document.getElementById("boton");
+const resultado = document.getElementById("resultado");
 
-if (operación === "3") 
-{alert("El porc en concepto de comisión por venta y gastos de escribania es de "+ c_comisionventa*100+ "% segun nuestra simulación sus gastos ascienden aproximadamente a: " + Porcentaje(monto,c_comisionventa));};
+window.addEventListener("DOMContentLoaded", () => {
+    const seleccionGuardada = localStorage.getItem("operacion");
+    const montoGuardado = localStorage.getItem("monto");
+    if (seleccionGuardada) {
+        select.value = seleccionGuardada;
+    }
+    if (montoGuardado) {
+        input.value = montoGuardado;
+    }
+    else{input.value = 0;}
+});
 
-if (operación === "2") 
-{alert("El porc en concepto de comisión por alquiler y gastos de escribania es de "+ c_comisionalquiler*100+ "% segun nuestra simulación sus gastos ascienden aproximadamente a: " + Porcentaje(monto,c_comisionalquiler));};
 
-if (operación === "1") 
-{alert("El porc en concepto de comisión por compra y gastos de escribania es de "+ c_comisioncompra*100+ "% segun nuestra simulación sus gastos ascienden aproximadamente a: " + Porcentaje(monto,c_comisioncompra));};
+console.log("valor guardado lore"+select.value);
+console.log(input);
+console.log(button);
 
+let contador = 0;
+
+button.addEventListener ("click", ()=>{
+    const monto = parseFloat(input.value);
+    const opcionSeleccionada = select.value;
+    localStorage.setItem("operacion", opcionSeleccionada);
+    localStorage.setItem("monto", monto);
+
+   if (isNaN(monto) || monto <= 0) {
+        alert("Por favor ingresa un monto válido antes de continuar.");
+        input.focus(); // Lleva el foco al input
+        return; // Detiene la ejecución del resto del código
+    } 
+
+    if (opcionSeleccionada=="Vender") {
+        resultado.innerText = "La operacion de Vender tiene una comision aproximada de " + monto * c_comisionventa;
+        return;
+    }
+
+    if (opcionSeleccionada=="Comprar") {
+        resultado.innerText = "La operacion de Comprar tiene una comision aproximada de " + monto * c_comisioncompra;
+        return;
+    }
+
+    if (opcionSeleccionada=="Alquilar") {
+        resultado.innerText = "La operacion de Aluilar tiene una comision aproximada de " + monto * c_comisionalquiler;
+        return;
+    }    
+
+});
 
 
 

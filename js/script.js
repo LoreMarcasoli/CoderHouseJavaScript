@@ -51,60 +51,89 @@ console.log("Muestra las regiones que quedaron post eliminación :",Regiones);
 Regiones.push('GBA-Norte');
 console.log("Muestra las regiones que quedaron push eliminación :",Regiones);
 
-
+//Capturo los elementos del html
 const select = document.getElementById("select");
 const input = document.getElementById("input");
+const provincia = document.getElementById("selectProvincias");
 const button = document.getElementById("boton");
 const resultado = document.getElementById("resultado");
 
-window.addEventListener("DOMContentLoaded", () => {
-    const seleccionGuardada = localStorage.getItem("operacion");
-    const montoGuardado = localStorage.getItem("monto");
-    if (seleccionGuardada) {
-        select.value = seleccionGuardada;
-    }
-    if (montoGuardado) {
-        input.value = montoGuardado;
-    }
-    else{input.value = 0;}
-});
+    //Captura el json con las provincias
+    const selectprovincia = document.getElementById("selectProvincias");
+     let comisiones = []; // variable global
+
+    fetch("comisiones.json")
+    .then(response => response.json())
+    .then(data => {
+        comisiones = data; // guardamos los datos globalmente
+        data.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item.provincia;
+            option.textContent = item.provincia;
+            selectprovincia.appendChild(option);
+        });
+
+        const provinciaseleccionada = localStorage.getItem("provincia");
+        if (provinciaseleccionada) {
+            selectprovincia.value = provinciaseleccionada;
+        }
+    })
+    .catch(error => console.error("Error cargando JSON:", error));
 
 
-console.log("valor guardado lore"+select.value);
-console.log(input);
-console.log(button);
-
-let contador = 0;
-
-button.addEventListener ("click", ()=>{
-    const monto = parseFloat(input.value);
-    const opcionSeleccionada = select.value;
-    localStorage.setItem("operacion", opcionSeleccionada);
-    localStorage.setItem("monto", monto);
-
-   if (isNaN(monto) || monto <= 0) {
-        alert("Por favor ingresa un monto válido antes de continuar.");
-        input.focus(); // Lleva el foco al input
-        return; // Detiene la ejecución del resto del código
-    } 
-
-    if (opcionSeleccionada=="Vender") {
-        resultado.innerText = "La operacion de Vender tiene una comision aproximada de " + monto * c_comisionventa;
-        return;
-    }
-
-    if (opcionSeleccionada=="Comprar") {
-        resultado.innerText = "La operacion de Comprar tiene una comision aproximada de " + monto * c_comisioncompra;
-        return;
-    }
-
-    if (opcionSeleccionada=="Alquilar") {
-        resultado.innerText = "La operacion de Aluilar tiene una comision aproximada de " + monto * c_comisionalquiler;
-        return;
-    }    
-
-});
+    //Almaceno las selecciones en el local storage
+    window.addEventListener("DOMContentLoaded", () => {
+        const seleccionGuardada = localStorage.getItem("operacion");
+        const montoGuardado = localStorage.getItem("monto");
+    
+        if (seleccionGuardada) {
+            select.value = seleccionGuardada;
+        }
+        if (montoGuardado) {
+            input.value = montoGuardado;
+        }
+        else{input.value = 0;}
+    });
 
 
+    // Declaramos la función antes de llamarla
+            const mostrarResultado = (opcionSeleccionadaFunc, montoFunc, provinciaFunc) => {
+            // Buscar la provincia en el array comisiones
+            const provinciaData = comisiones.find(p => p.provincia === provinciaFunc);
+            
+            if (!provinciaData) {
+                resultado.innerText = "Provincia no encontrada.";
+                return;
+            }
 
+            let comisionOptada = 0;
+            if (opcionSeleccionadaFunc === "Vender") comisionOptada = provinciaData.v1;
+            if (opcionSeleccionadaFunc === "Comprar") comisionOptada = provinciaData.v2;
+            if (opcionSeleccionadaFunc === "Alquilar") comisionOptada = provinciaData.v3;
+
+            resultado.innerText = `La operación de ${opcionSeleccionadaFunc} en la provincia de ${provinciaFunc} tiene una comisión aproximada de ${montoFunc * comisionOptada/100} equivalente a un porcentaje de comision de: ${comisionOptada} %`;
+            };
+
+    let contador = 0;
+
+    button.addEventListener ("click", (e)=>{           
+            const monto = parseFloat(input.value);
+            const opcionSeleccionada = select.value;
+            const opcionprovinicia = selectprovincia.value;
+
+            localStorage.setItem("operacion", opcionSeleccionada);
+            localStorage.setItem("monto", monto);
+            localStorage.setItem("provincia", opcionprovinicia);
+
+            //Delegacion de eventos
+        if (isNaN(monto) || monto <= 0) {
+                alert("Por favor ingresa un monto válido antes de continuar.");
+                input.focus(); // Lleva el foco al input
+                return; // Detiene la ejecución del resto del código
+            } 
+
+            mostrarResultado(opcionSeleccionada,monto,selectprovincia.value);
+    });
+
+ 
 

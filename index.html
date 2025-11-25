@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inmobiliaria Diqmar</title>
     <!--Referencia a la archivo de Style-->   
-    <!--<link rel="stylesheet" href="style.css"> -->
-    <!--Referencia a la archivo de Logica en java scripts-->   
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1 id = "saludo">Bienvenido a Inmobiliaria Diqmar<h1>
-    <p id = "introduccion">DIQMAR" es una empresa familiar dedicada al asesoramiento inmobiliario desde hace muchos años. Acompañamos a nuetros clientes en todas sus operaciones</p>    
-    <p id = "simulador">Te ofrecemos un simulador que te permita calcular el monto de la comision y gastos de cualquier tipo de operacion Inmobiliaria</p>    
+    <header class="header-ppal"> 
+         <img src="images/Logo_nuevo.PNG" alt="Logo Diqmar" class="logo-diqmar">
+        <h1 id = "saludo">Bienvenido a Bienes Raices Diqmar</h1>
+        <p id = "introduccion">"DIQMAR" es una empresa familiar dedicada al asesoramiento inmobiliario desde hace muchos años. Acompañamos a nuetros clientes en todas sus operaciones</p>    
+        <p id = "simulador">Te ofrecemos un simulador que te permita calcular el monto de la comisión y gastos de cualquier tipo de operacion Inmobiliaria</p>    
+    </header>    
     
-        
-        <input type="number" id ="input"  placeholder="Ingresar Monto Operación" value="0"></input>
+    <div class="form-container">
+        <input type="number" id ="input"  placeholder="Ingresar Monto Operación" value="0">
         <select name="" id="select">
             <option value="Comprar">Comprar</option>
             <option value="Vender">Vender</option>
@@ -26,11 +28,9 @@
         </select>
 
         <button id ="boton"> Calcular comisión</button>
-
-
-        
+    </div>    
     
-        <h2 id="resultado"></h2>
+    <p id="resultado"></p>
 
     <script defer src="js/script.js"></script> 
 </body>

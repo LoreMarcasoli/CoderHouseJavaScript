@@ -1,0 +1,87 @@
+.header-ppal{   
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 18vh;
+    position: relative;
+}
+
+.logo-diqmar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 80px;      /* ajusta según tamaño */
+    height: auto;
+}
+
+
+/* Contenedor general (opcional si quieres centrar todo) */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 300px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo para input y select */
+/*#input,
+#select,
+#selectProvincias {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: 0.2s ease-in-out;
+}*/
+#input,
+#select,
+#selectProvincias {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: 0.2s ease-in-out;
+    box-sizing: border-box; /* Asegura que padding y border no aumenten el ancho */
+}
+
+
+#input:focus,
+#select:focus,
+#selectProvincias:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    outline: none;
+}
+
+/* Estilo del botón */
+#boton {
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#boton:hover {
+    background-color: #3a78c2;
+}
+
+#boton:active {
+    background-color: #2f68a5;
+}
+
+#resultado {
+    background-image: url(images/Header7.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 18vh;
+    position: relative;
+}

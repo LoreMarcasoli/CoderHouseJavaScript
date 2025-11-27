@@ -93,7 +93,7 @@ fetch("comisiones.json")
 // =======================
 window.addEventListener("DOMContentLoaded", () => {
   const seleccionGuardada = localStorage.getItem("operacion");
-  const montoGuardado = localStorage.getItem("monto");
+  const montoGuardado     = localStorage.getItem("monto");
 
   if (seleccionGuardada) select.value = seleccionGuardada;
   input.value = montoGuardado ? montoGuardado : 0;
@@ -116,7 +116,11 @@ const mostrarResultado = (opcion, monto, provinciaElegida) => {
   if (opcion === "Comprar") comisionOptada = provinciaData.v2;
   if (opcion === "Alquilar") comisionOptada = provinciaData.v3;
 
-  resultado.innerHTML = `La operación de <strong>${opcion}</strong> en la provincia de <strong>${provinciaElegida}</strong>  tiene una comisión aproximada de <strong>$${(monto * comisionOptada) / 100}</strong>, equivalente a un porcentaje de comisión de: <strong>${comisionOptada} %</strong>`;
+    resultado.innerHTML = `
+    <div class="resultado-content">
+      <div class="resultado-text">La operación de <strong>${opcion}</strong> en la provincia de <strong>${provinciaElegida}</strong> tiene una comisión aproximada de <strong>$${(monto * comisionOptada) / 100}</strong>, equivalente a un porcentaje de comisión de: <strong>${comisionOptada} %</strong></div>
+    </div>
+  `;
 };
 
 // =======================
@@ -127,15 +131,46 @@ button.addEventListener("click", () => {
   const opcionSeleccionada = select.value;
   const provinciaSeleccionada = provincia.value;
 
-  localStorage.setItem("operacion", opcionSeleccionada);
-  localStorage.setItem("monto", monto);
-  localStorage.setItem("provincia", provinciaSeleccionada);
+  // Validar que se haya seleccionado una provincia
+  if (!provinciaSeleccionada || provinciaSeleccionada === "" || provinciaSeleccionada === "Seleccionar") {
+    Swal.fire({
+      icon: "warning",
+      title: "No seleccionaste ninguna provincia",
+      text: "Por favor selecciona una provincia antes de continuar.",
+    });
+    provincia.focus();
+    return;
+  }
 
+  // Validar monto
   if (isNaN(monto) || monto <= 0) {
-    alert("Por favor ingresa un monto válido antes de continuar.");
+    Swal.fire({
+      icon: "error",
+      title: "Monto inválido",
+      text: "Por favor ingresa un monto válido antes de continuar.",
+    });
     input.focus();
     return;
   }
+
+  // Mostrar indicador (con imagen) y guardar selección
+  Swal.fire({
+    title: "Calculando comisión",
+    html: `
+      <img src="https://wallpapers.com/images/hd/obelisco-de-buenos-aires-at-dusk-snzbz48veaocw6zl.jpg" alt="Obelisco" style="width:100%;max-width:420px;border-radius:8px;margin-bottom:8px;">
+      <div>Calculando comisión...</div>
+    `,
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+    timer: 1500,
+  });
+
+  localStorage.setItem("operacion", opcionSeleccionada);
+  localStorage.setItem("monto", monto);
+  localStorage.setItem("provincia", provinciaSeleccionada);
 
   mostrarResultado(opcionSeleccionada, monto, provinciaSeleccionada);
 });
